@@ -28,6 +28,8 @@ uv run uvicorn app.main:app --reload --host 127.0.0.1
 
 ### 터미널에서 할 일 관리
 
+CLI의 설치, 명령 옵션, 필터, 출력 형식은 [CLI 사용 설명서](docs/CLI_GUIDE.md)를 참고하세요.
+
 서버가 실행 중인 상태에서 새 터미널을 열고 저장소 루트에서 명령을 실행합니다.
 
 ```sh
@@ -95,6 +97,7 @@ uv run pytest
 
 ## 문서
 
+- [CLI 사용 설명서](docs/CLI_GUIDE.md)
 - [제품 요구사항](docs/PRD.md) 및 [CLI 요구사항](docs/PRD_CLI.md)
 - [API 기술 설계](docs/TSD.md) 및 [CLI 기술 설계](docs/TSD_CLI.md)
 - [데이터베이스 설계](docs/DATABASE.md)
