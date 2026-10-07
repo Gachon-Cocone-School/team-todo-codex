@@ -1,0 +1,116 @@
+[project]
+name = "team-todo-codex"
+version = "0.1.0"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "alembic>=1.20.0",
+    "fastapi>=0.142.2",
+    "hatchling>=1.32.4",
+    "httpx>=0.28.1",
+    "pydantic-settings>=2.15.0",
+    "sqlalchemy>=2.1.3",
+    "typer>=0.27.3",
+    "uvicorn[standard]>=0.54.0",
+]
+
+[project.scripts]
+ttodo = "app.cli:app"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["app"]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+    "ruff==0.16.8",
+]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 88
+
+[tool.ruff.lint]
+# Enable every stable and preview rule. The tool version is pinned in the
+# development dependencies and uv.lock so rule changes arrive deliberately.
+select = ["ALL"]
+preview = true
+
+# These rules conflict with or duplicate Ruff's formatter behavior.
+ignore = [
+    # This repository has no copyright/license metadata to use for headers.
+    "missing-copyright-notice",
+    "tab-indentation",
+    "indentation-with-invalid-multiple",
+    "indentation-with-invalid-multiple-comment",
+    "over-indented",
+    "incorrect-blank-line-before-class",
+    "docstring-tab-indentation",
+    "triple-single-quotes",
+    "bad-quotes-inline-string",
+    "bad-quotes-multiline-string",
+    "bad-quotes-docstring",
+    "avoidable-escaped-quote",
+    "unnecessary-escaped-quote",
+    "missing-trailing-comma",
+    "prohibited-trailing-comma",
+    "multi-line-summary-second-line",
+]
+
+[tool.ruff.lint.per-file-ignores]
+# Assertions are the core of test verification and are expected in tests.
+"tests/**/*.py" = [
+    "assert",
+    "ANN",
+    "D",
+    "magic-value-comparison",
+    "implicit-namespace-package",
+    "fromisoformat-replace-z",
+]
+"tests/test_migrations.py" = [
+    "suspicious-subprocess-import",
+    "subprocess-without-shell-equals-true",
+]
+"tests/test_cli_e2e.py" = [
+    "suspicious-subprocess-import",
+    "subprocess-without-shell-equals-true",
+]
+
+"app/api/routes/todos.py" = [
+    "too-many-arguments",
+    "too-many-positional-arguments",
+    "docstring-missing-returns",
+    "docstring-missing-exception",
+]
+"app/services/todos.py" = ["too-many-arguments", "docstring-missing-returns"]
+"app/schemas/todo.py" = [
+    "docstring-missing-returns",
+    "docstring-missing-exception",
+    "raise-vanilla-args",
+    "raw-string-in-exception",
+    "f-string-in-exception",
+    "magic-value-comparison",
+]
+"app/cli.py" = [
+    "boolean-default-value-positional-argument",
+    "docstring-missing-exception",
+    "raise-vanilla-args",
+    "raw-string-in-exception",
+    "too-many-arguments",
+    "too-many-positional-arguments",
+]
+
+[tool.ruff.format]
+preview = true
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"
+docstring-code-format = true
+
+[tool.pytest.ini_options]
+addopts = "-ra --strict-config --strict-markers"
+pythonpath = ["."]
+markers = ["integration: API and SQLite integration tests."]
